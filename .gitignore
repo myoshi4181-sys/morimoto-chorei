@@ -1,0 +1,6 @@
+node_modules/
+data.json
+.claude/
+起動.bat
+start.ps1
+*.log

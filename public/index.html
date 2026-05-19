@@ -14,6 +14,9 @@
       --orange:      #d97706;
       --orange-bg:   #fef3c7;
       --orange-text: #92400e;
+      --purple:      #9333ea;
+      --purple-bg:   #f3e8ff;
+      --purple-text: #6b21a8;
       --red:    #dc2626;
       --gray-50:  #f9fafb;
       --gray-100: #f3f4f6;
@@ -35,7 +38,6 @@
       min-height: 100vh;
     }
 
-    /* ── Header ── */
     .header {
       background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
       color: white;
@@ -49,7 +51,6 @@
 
     .container { max-width: 600px; margin: 0 auto; padding: 14px 12px 60px; }
 
-    /* ── Section labels ── */
     .sec-title {
       font-size: 11px; font-weight: 700; color: var(--gray-400);
       text-transform: uppercase; letter-spacing: 1px;
@@ -63,7 +64,6 @@
       padding: 0 4px; margin: 18px 0 7px;
     }
 
-    /* ── Current week card ── */
     .week-card {
       background: white; border-radius: 14px;
       overflow: hidden; margin-bottom: 12px;
@@ -78,7 +78,6 @@
     .week-card-label { font-size: 12px; font-weight: 700; color: var(--blue); }
     .week-card-dates { font-size: 12px; color: var(--gray-500); }
 
-    /* ── Day row (inside current week card) ── */
     .day-row {
       display: flex; align-items: center;
       padding: 11px 14px;
@@ -89,22 +88,32 @@
     .day-row.today { background: #fefce8; }
 
     .day-label {
-      width: 42px; flex-shrink: 0;
+      width: 56px; flex-shrink: 0;
       font-size: 13px; font-weight: 600; color: var(--gray-500);
     }
     .day-label.today-label { color: var(--orange); }
 
+    .day-main { flex: 1; min-width: 0; }
     .day-member {
-      flex: 1;
       font-size: 16px; font-weight: 600; color: var(--gray-900);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .day-member span { font-size: 12px; color: var(--gray-400); font-weight: 400; margin-left: 2px; }
-
-    .day-note { font-size: 11px; color: var(--gray-400); }
+    .day-member .scheduled-strike {
+      font-size: 12px; color: var(--gray-400); font-weight: 500;
+      text-decoration: line-through;
+    }
+    .day-member .swap-arrow {
+      color: var(--purple); font-weight: 700; margin: 0 2px; font-size: 13px;
+    }
+    .day-member span.suffix { font-size: 12px; color: var(--gray-400); font-weight: 400; margin-left: 1px; }
+    .day-note {
+      font-size: 11px; color: var(--purple); margin-top: 2px;
+      font-weight: 500;
+    }
+    .day-note.gray { color: var(--gray-400); font-weight: 400; }
 
     .day-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
 
-    /* ── Sales week banner ── */
     .sales-banner {
       background: white; border-radius: 14px;
       padding: 20px 16px; margin-bottom: 12px;
@@ -116,7 +125,6 @@
     .sales-banner-text { font-size: 15px; color: var(--gray-500); }
     .sales-banner-date { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
 
-    /* ── Pre-start banner ── */
     .prestart-banner {
       background: white; border-radius: 14px;
       padding: 22px 16px; margin-bottom: 12px;
@@ -127,7 +135,6 @@
     .prestart-text { font-size: 15px; color: var(--gray-600); }
     .prestart-date { font-size: 20px; font-weight: 700; color: var(--blue); margin-top: 4px; }
 
-    /* ── Upcoming list ── */
     .upcoming-list {
       background: white; border-radius: 12px; overflow: hidden;
       box-shadow: 0 1px 4px rgba(0,0,0,0.07);
@@ -150,7 +157,6 @@
     .tag-mkt   { background: var(--blue-bg); color: var(--blue); }
     .tag-sales { background: var(--gray-100); color: var(--gray-400); }
 
-    /* ── Buttons ── */
     .btn {
       padding: 6px 10px; border-radius: 7px; font-size: 12px;
       font-weight: 600; border: none; cursor: pointer; font-family: inherit;
@@ -161,8 +167,8 @@
     .btn-skip   { background: var(--orange-bg); color: var(--orange-text); }
     .btn-cancel { background: var(--gray-200); color: var(--gray-700); }
     .btn-confirm { background: var(--blue); color: white; }
+    .btn-purple { background: var(--purple); color: white; }
 
-    /* ── Status badges ── */
     .badge {
       display: inline-flex; align-items: center; gap: 3px;
       padding: 3px 8px; border-radius: 99px;
@@ -171,20 +177,19 @@
     .badge-pending   { background: var(--gray-100); color: var(--gray-500); }
     .badge-completed { background: var(--green-bg); color: var(--green-text); }
     .badge-skipped   { background: var(--orange-bg); color: var(--orange-text); }
+    .badge-swap      { background: var(--purple-bg); color: var(--purple-text); }
 
     .undo-link {
       font-size: 11px; color: var(--blue); background: none;
       border: none; cursor: pointer; text-decoration: underline; font-family: inherit;
     }
 
-    /* ── Rotation hint ── */
     .rotation-hint {
       font-size: 11px; color: var(--gray-400); text-align: center;
       padding: 9px 12px; background: white;
       border-top: 1px dashed var(--gray-200); word-break: break-all;
     }
 
-    /* ── Members section ── */
     .members-box {
       background: white; border-radius: 12px; padding: 16px;
       margin-top: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07);
@@ -221,7 +226,6 @@
     }
     .members-note { font-size: 11px; color: var(--gray-400); margin-top: 7px; }
 
-    /* ── Modal ── */
     .overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.45);
       display: flex; align-items: flex-end; justify-content: center;
@@ -233,10 +237,40 @@
       padding: 20px 18px 30px; width: 100%; max-width: 600px;
       transform: translateY(110%);
       transition: transform 0.26s cubic-bezier(0.4,0,0.2,1);
+      max-height: 90vh; overflow-y: auto;
     }
     .overlay.open .modal { transform: translateY(0); }
     .modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
-    .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 14px; }
+    .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 16px; }
+
+    .opt-list {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-bottom: 14px;
+    }
+    .opt {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px; padding: 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .opt:hover { border-color: var(--gray-400); }
+    .opt.selected { border-color: var(--blue); background: var(--blue-bg); }
+    .opt-title { font-size: 14px; font-weight: 700; color: var(--gray-800); }
+    .opt-desc { font-size: 11px; color: var(--gray-500); margin-top: 3px; }
+    .opt-select {
+      margin-top: 8px;
+      width: 100%; padding: 8px 10px;
+      border: 1px solid var(--gray-300); border-radius: 7px;
+      font-size: 14px; font-family: inherit; outline: none;
+      background: white;
+    }
+    .opt-select:focus { border-color: var(--blue); }
+    .opt-preview {
+      font-size: 11px; color: var(--purple-text);
+      margin-top: 6px; padding: 6px 8px;
+      background: var(--purple-bg); border-radius: 6px;
+    }
+
     .field { margin-bottom: 12px; }
     .field label { display: block; font-size: 13px; color: var(--gray-600); margin-bottom: 4px; font-weight: 500; }
     .field select, .field textarea {
@@ -244,14 +278,11 @@
       border: 1px solid var(--gray-300); border-radius: 8px;
       font-size: 15px; font-family: inherit; outline: none;
     }
-    .field select:focus, .field textarea:focus {
-      border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-    }
-    .field textarea { resize: none; height: 72px; }
+    .field textarea { resize: none; height: 60px; }
+
     .modal-btns { display: flex; gap: 9px; margin-top: 14px; }
     .modal-btns .btn { flex: 1; padding: 12px; font-size: 15px; }
 
-    /* ── Toast ── */
     .toast {
       position: fixed; bottom: 22px; left: 50%;
       transform: translateX(-50%) translateY(80px);
@@ -293,24 +324,40 @@
   </div>
 </div>
 
-<!-- Skip modal -->
+<!-- Skip/Swap modal -->
 <div class="overlay" id="skipOverlay" onclick="closeOnBg(event,'skipOverlay')">
   <div class="modal">
-    <h3>⏭ スキップを記録</h3>
+    <h3>⏭ スキップ・代行・交換</h3>
     <p class="modal-sub" id="skipInfo"></p>
-    <div class="field">
-      <label>代行者（誰かが先に担当した場合）</label>
-      <select id="skipCoveredBy">
-        <option value="">なし</option>
-      </select>
+
+    <div class="opt-list">
+      <div class="opt" id="optHoliday" onclick="selectOpt('holiday')">
+        <div class="opt-title">🏠 お休み（誰も対応しない）</div>
+        <div class="opt-desc">この日は朝礼担当者なし</div>
+      </div>
+
+      <div class="opt" id="optCover" onclick="selectOpt('cover')">
+        <div class="opt-title">🤝 代行してもらう（その日だけ）</div>
+        <div class="opt-desc">他の人が代わりに対応。<strong>次回のローテーションは変わらない</strong></div>
+        <select class="opt-select" id="coverPerson" onchange="event.stopPropagation();" onclick="event.stopPropagation();selectOpt('cover')"></select>
+      </div>
+
+      <div class="opt" id="optSwap" onclick="selectOpt('swap')">
+        <div class="opt-title">🔄 番を交換する</div>
+        <div class="opt-desc">代行してもらう代わりに、<strong>次回その人の番に自分が入る</strong></div>
+        <select class="opt-select" id="swapPerson" onchange="updateSwapPreview();event.stopPropagation();" onclick="event.stopPropagation();selectOpt('swap')"></select>
+        <div class="opt-preview" id="swapPreview" style="display:none;"></div>
+      </div>
     </div>
+
     <div class="field">
       <label>メモ（任意）</label>
       <textarea id="skipNote" placeholder="理由など..."></textarea>
     </div>
+
     <div class="modal-btns">
       <button class="btn btn-cancel" onclick="closeOverlay('skipOverlay')">キャンセル</button>
-      <button class="btn" style="background:var(--orange);color:white;" onclick="confirmSkip()">スキップを記録</button>
+      <button class="btn btn-confirm" id="skipConfirmBtn" onclick="confirmSkip()" disabled>選択してください</button>
     </div>
   </div>
 </div>
@@ -321,15 +368,14 @@
   let data = null;
   let modalDate = null;
   let modalAssigned = null;
+  let modalOption = null;  // 'holiday' | 'cover' | 'swap'
   let showPast = false;
   let dragIdx = null;
 
-  // ── Date helpers ────────────────────────────────────────
   const DAY_NAMES = ['日','月','火','水','木','金','土'];
 
-  function toStr(d) {
-    return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
-  }
+  // ── Date helpers ─────────────────────────────────────
+  function toStr(d) { return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`; }
   function p2(n) { return String(n).padStart(2,'0'); }
   function parse(s) { return new Date(s + 'T00:00:00'); }
 
@@ -339,17 +385,13 @@
     d.setDate(d.getDate() + (day === 0 ? -6 : 1 - day));
     return toStr(d);
   }
-
   function addDays(dateStr, n) {
     const d = parse(dateStr);
     d.setDate(d.getDate() + n);
     return toStr(d);
   }
-
   function addWeeks(mondayStr, n) { return addDays(mondayStr, n * 7); }
-
   function getFriday(mondayStr) { return addDays(mondayStr, 4); }
-
   function fmtMD(s) {
     const d = parse(s);
     return `${d.getMonth()+1}/${d.getDate()}`;
@@ -362,92 +404,123 @@
     const d = parse(s);
     return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
   }
-
   function getWorkdays(mondayStr) {
     return [0,1,2,3,4].map(i => addDays(mondayStr, i));
   }
 
-  // ── Rotation logic ───────────────────────────────────────
-  // Weeks since startDate. Even = marketing, odd = sales.
+  // ── Rotation logic ───────────────────────────────────
   function weeksSinceStart(mondayStr) {
     const startMs = parse(data.startDate).getTime();
     const curMs   = parse(mondayStr).getTime();
     return Math.round((curMs - startMs) / (7 * 86400000));
   }
-
   function isMarketingWeek(mondayStr) {
     const w = weeksSinceStart(mondayStr);
     return w >= 0 && w % 2 === 0;
   }
-
-  // Returns assigned member for a given weekday date string, or null.
   function getAssigned(dateStr) {
+    // ローテーションに基づく「予定された」担当者
+    if (!data.members.length) return null;
     const monday = getMondayOf(dateStr);
     const w = weeksSinceStart(monday);
-    if (w < 0 || w % 2 !== 0) return null;      // before start or sales week
-
+    if (w < 0 || w % 2 !== 0) return null;
     const d = parse(dateStr);
-    const dow = d.getDay();                       // 1=Mon … 5=Fri
-    if (dow < 1 || dow > 5) return null;          // weekend
-
-    const mktWeekNum = w / 2;                     // 0-based marketing week index
-    const dayOffset  = dow - 1;                   // 0=Mon … 4=Fri
+    const dow = d.getDay();
+    if (dow < 1 || dow > 5) return null;
+    const mktWeekNum = w / 2;
+    const dayOffset  = dow - 1;
     const slot = data.startMemberIndex + mktWeekNum * 5 + dayOffset;
     const idx  = ((slot % data.members.length) + data.members.length) % data.members.length;
     return data.members[idx];
   }
-
   function getDayRecord(dateStr) {
     return (data.dayRecords || {})[dateStr] || { status: 'pending' };
   }
-
-  // ── API ──────────────────────────────────────────────────
-  async function fetchData() {
-    const res = await fetch('/api/data');
-    data = await res.json();
-    if (!data.dayRecords) data.dayRecords = {};
-    render();
+  function getEffective(dateStr) {
+    const rec = getDayRecord(dateStr);
+    return rec.actualBy || getAssigned(dateStr);
   }
 
+  // 指定メンバーの次のマーケ担当日を探す（指定日より後、最大90日先まで）
+  function findNextScheduledDay(memberName, fromDateStr) {
+    let cursor = fromDateStr;
+    for (let i = 0; i < 90; i++) {
+      cursor = addDays(cursor, 1);
+      const assigned = getAssigned(cursor);
+      if (assigned !== memberName) continue;
+      const rec = getDayRecord(cursor);
+      // すでに完了/スキップ/交換済みの日はスキップ
+      if (rec.status && rec.status !== 'pending') continue;
+      if (rec.swapWith) continue;
+      return cursor;
+    }
+    return null;
+  }
+
+  // ── API ──────────────────────────────────────────────
+  async function fetchData() {
+    try {
+      const res = await fetch('/api/data');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      data = await res.json();
+      if (!data.dayRecords) data.dayRecords = {};
+      render();
+    } catch (e) {
+      console.error('Load error:', e);
+      document.getElementById('app').innerHTML =
+        '<div style="text-align:center;padding:40px;color:#dc2626;">読み込みエラー：' + e.message + '</div>';
+    }
+  }
   async function apiDay(date, record) {
-    await fetch('/api/day', {
+    const r = await fetch('/api/day', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ date, record })
     });
+    if (!r.ok) throw new Error('Save failed');
     await fetchData();
   }
-
+  async function apiSwap(dateA, recordA, dateB, recordB) {
+    const r = await fetch('/api/swap', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dateA, recordA, dateB, recordB })
+    });
+    if (!r.ok) throw new Error('Swap save failed');
+    await fetchData();
+  }
   async function apiMembers(members) {
-    await fetch('/api/members', {
+    const r = await fetch('/api/members', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ members })
     });
+    if (!r.ok) throw new Error('Members save failed');
     await fetchData();
   }
 
-  // ── Toast ────────────────────────────────────────────────
+  // ── Toast ────────────────────────────────────────────
   function toast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg;
     el.classList.add('show');
     clearTimeout(el._t);
-    el._t = setTimeout(() => el.classList.remove('show'), 2600);
+    el._t = setTimeout(() => el.classList.remove('show'), 2800);
   }
 
-  // ── Modals ───────────────────────────────────────────────
+  // ── Modal ────────────────────────────────────────────
   function openOverlay(id)  { document.getElementById(id).classList.add('open'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
   function closeOnBg(e, id) { if (e.target === e.currentTarget) closeOverlay(id); }
 
   function openDoneModal(dateStr, assigned) {
     modalDate = dateStr; modalAssigned = assigned;
-    document.getElementById('doneInfo').textContent = `${fmtMDday(dateStr)}　担当: ${assigned}さん`;
+    document.getElementById('doneInfo').textContent = `${fmtMDday(dateStr)}　予定: ${assigned}さん`;
     const sel = document.getElementById('doneBy');
     sel.innerHTML = '';
+    const effective = getEffective(dateStr) || assigned;
     data.members.forEach(m => {
-      sel.innerHTML += `<option value="${m}" ${m===assigned?'selected':''}>${m}さん</option>`;
+      sel.innerHTML += `<option value="${m}" ${m === effective ? 'selected' : ''}>${m}さん</option>`;
     });
     document.getElementById('doneNote').value = '';
     openOverlay('doneOverlay');
@@ -455,98 +528,222 @@
 
   function openSkipModal(dateStr, assigned) {
     modalDate = dateStr; modalAssigned = assigned;
+    modalOption = null;
     document.getElementById('skipInfo').textContent = `${fmtMDday(dateStr)}　担当: ${assigned}さん`;
-    const sel = document.getElementById('skipCoveredBy');
-    sel.innerHTML = '<option value="">なし</option>';
-    data.members.filter(m => m !== assigned).forEach(m => {
-      sel.innerHTML += `<option value="${m}">${m}さん（先行対応）</option>`;
-    });
+
+    // selectsを準備
+    const others = data.members.filter(m => m !== assigned);
+    const coverSel = document.getElementById('coverPerson');
+    const swapSel  = document.getElementById('swapPerson');
+    coverSel.innerHTML = others.map(m => `<option value="${m}">${m}さん</option>`).join('');
+    swapSel.innerHTML  = others.map(m => `<option value="${m}">${m}さん</option>`).join('');
+
     document.getElementById('skipNote').value = '';
+    document.getElementById('swapPreview').style.display = 'none';
+    document.querySelectorAll('.opt').forEach(el => el.classList.remove('selected'));
+    document.getElementById('skipConfirmBtn').disabled = true;
+    document.getElementById('skipConfirmBtn').textContent = '選択してください';
+
     openOverlay('skipOverlay');
+  }
+
+  function selectOpt(opt) {
+    modalOption = opt;
+    document.querySelectorAll('.opt').forEach(el => el.classList.remove('selected'));
+    document.getElementById('opt' + opt.charAt(0).toUpperCase() + opt.slice(1)).classList.add('selected');
+
+    const btn = document.getElementById('skipConfirmBtn');
+    btn.disabled = false;
+    if (opt === 'holiday') btn.textContent = '休みとして記録';
+    else if (opt === 'cover') btn.textContent = '代行を記録';
+    else if (opt === 'swap')  btn.textContent = '交換を記録';
+
+    if (opt === 'swap') updateSwapPreview();
+    else document.getElementById('swapPreview').style.display = 'none';
+  }
+
+  function updateSwapPreview() {
+    const partner = document.getElementById('swapPerson').value;
+    if (!partner) return;
+    const nextDate = findNextScheduledDay(partner, modalDate);
+    const preview = document.getElementById('swapPreview');
+    if (!nextDate) {
+      preview.style.display = 'block';
+      preview.textContent = `⚠️ ${partner}さんの次の担当日が見つかりません（90日以内）`;
+      preview.style.background = '#fef2f2';
+      preview.style.color = '#991b1b';
+    } else {
+      preview.style.display = 'block';
+      preview.innerHTML =
+        `→ ${fmtMDday(modalDate)}は<strong>${partner}さん</strong>が対応<br>` +
+        `→ ${fmtMDday(nextDate)}は<strong>${modalAssigned}さん</strong>が対応（交換）`;
+      preview.style.background = 'var(--purple-bg)';
+      preview.style.color = 'var(--purple-text)';
+    }
   }
 
   async function confirmDone() {
     const by   = document.getElementById('doneBy').value;
     const note = document.getElementById('doneNote').value.trim();
-    await apiDay(modalDate, { status:'completed', completedBy:by, coveredBy:null, note:note||null });
-    closeOverlay('doneOverlay');
-    toast('完了を記録しました ✅');
+    try {
+      await apiDay(modalDate, {
+        status: 'completed',
+        actualBy: (by !== modalAssigned) ? by : null,
+        note: note || null
+      });
+      closeOverlay('doneOverlay');
+      toast('完了を記録しました ✅');
+    } catch (e) {
+      toast('保存失敗: ' + e.message);
+    }
   }
 
   async function confirmSkip() {
-    const cov  = document.getElementById('skipCoveredBy').value;
     const note = document.getElementById('skipNote').value.trim();
-    await apiDay(modalDate, { status:'skipped', coveredBy:cov||null, completedBy:null, note:note||null });
-    closeOverlay('skipOverlay');
-    toast('スキップを記録しました');
+    try {
+      if (modalOption === 'holiday') {
+        await apiDay(modalDate, {
+          status: 'skipped',
+          actualBy: null,
+          swapWith: null,
+          note: note || null
+        });
+        closeOverlay('skipOverlay');
+        toast('お休みとして記録しました');
+      } else if (modalOption === 'cover') {
+        const cover = document.getElementById('coverPerson').value;
+        await apiDay(modalDate, {
+          status: 'completed',
+          actualBy: cover,
+          swapWith: null,
+          note: note || null
+        });
+        closeOverlay('skipOverlay');
+        toast(`${cover}さんの代行で記録しました`);
+      } else if (modalOption === 'swap') {
+        const partner = document.getElementById('swapPerson').value;
+        const partnerDate = findNextScheduledDay(partner, modalDate);
+        if (!partnerDate) {
+          toast(`${partner}さんの次の担当日が見つかりません`);
+          return;
+        }
+        // 交換は2日分まとめて更新
+        await apiSwap(
+          modalDate,
+          { status: 'completed', actualBy: partner, swapWith: partnerDate, note: note || null },
+          partnerDate,
+          { status: 'pending', actualBy: modalAssigned, swapWith: modalDate, note: null }
+        );
+        closeOverlay('skipOverlay');
+        toast(`${partner}さんと交換しました`);
+      }
+    } catch (e) {
+      toast('保存失敗: ' + e.message);
+    }
   }
 
   async function undoDay(dateStr) {
-    await apiDay(dateStr, { status:'pending', completedBy:null, coveredBy:null, note:null });
-    toast('記録を取り消しました');
+    const rec = getDayRecord(dateStr);
+    try {
+      if (rec.swapWith) {
+        // 交換ペアの両方を取り消す
+        const partnerDate = rec.swapWith;
+        if (!confirm('交換ペアの両日を取り消します。よろしいですか？')) return;
+        await apiSwap(
+          dateStr,
+          { status: 'pending', actualBy: null, swapWith: null, note: null },
+          partnerDate,
+          { status: 'pending', actualBy: null, swapWith: null, note: null }
+        );
+        toast('交換を取り消しました');
+      } else {
+        await apiDay(dateStr, { status: 'pending', actualBy: null, swapWith: null, note: null });
+        toast('記録を取り消しました');
+      }
+    } catch (e) {
+      toast('取消失敗: ' + e.message);
+    }
   }
 
-  // ── Badge / note helpers ─────────────────────────────────
+  // ── Display helpers ──────────────────────────────────
   function badgeHTML(rec) {
     if (rec.status === 'completed') return '<span class="badge badge-completed">✅ 完了</span>';
-    if (rec.status === 'skipped')   return '<span class="badge badge-skipped">⏭ スキップ</span>';
+    if (rec.status === 'skipped')   return '<span class="badge badge-skipped">🏠 休み</span>';
+    if (rec.swapWith)               return '<span class="badge badge-swap">🔄 交換予定</span>';
     return '<span class="badge badge-pending">📅 予定</span>';
   }
 
-  function noteFor(rec, assigned) {
-    const parts = [];
-    if (rec.status === 'completed' && rec.completedBy && rec.completedBy !== assigned)
-      parts.push(`${rec.completedBy}さんが代行`);
-    if (rec.status === 'skipped' && rec.coveredBy)
-      parts.push(`${rec.coveredBy}さんが先行対応`);
-    if (rec.note) parts.push(rec.note);
-    return parts.join('・');
+  function dayMemberHTML(scheduled, effective, rec) {
+    if (effective === scheduled) {
+      return `${scheduled}<span class="suffix">さん</span>`;
+    }
+    // 担当者が変わっている → 元の担当を取り消し線、実担当を太字
+    return `<span class="scheduled-strike">${scheduled}</span><span class="swap-arrow">→</span>${effective}<span class="suffix">さん</span>`;
   }
 
-  // ── Day row HTML (inside a week card) ───────────────────
+  function noteFor(rec, scheduled) {
+    if (rec.swapWith) {
+      return `🔄 ${fmtMDday(rec.swapWith)}と交換`;
+    }
+    if (rec.actualBy && rec.actualBy !== scheduled && rec.status === 'completed') {
+      return `🤝 ${scheduled}さんの代行`;
+    }
+    if (rec.note) return rec.note;
+    return '';
+  }
+
   function dayRowHTML(dateStr, today, interactive) {
-    const assigned = getAssigned(dateStr);
-    if (!assigned) return '';
-    const rec      = getDayRecord(dateStr);
-    const isToday  = dateStr === today;
-    const note     = noteFor(rec, assigned);
+    const scheduled = getAssigned(dateStr);
+    if (!scheduled) return '';
+    const rec = getDayRecord(dateStr);
+    const effective = rec.actualBy || scheduled;
+    const isToday = dateStr === today;
+
+    const note = noteFor(rec, scheduled);
+    const extraNote = rec.note && (rec.swapWith || (rec.actualBy && rec.actualBy !== scheduled))
+      ? `<div class="day-note gray">${rec.note}</div>` : '';
 
     let actions = '';
-    if (interactive && rec.status === 'pending') {
-      actions = `
-        <button class="btn btn-done" onclick="openDoneModal('${dateStr}','${assigned}')">完了</button>
-        <button class="btn btn-skip" onclick="openSkipModal('${dateStr}','${assigned}')">スキップ</button>`;
-    } else if (rec.status !== 'pending') {
-      actions = `${badgeHTML(rec)}<button class="undo-link" onclick="undoDay('${dateStr}')">取消</button>`;
+    if (rec.status === 'pending') {
+      if (interactive) {
+        // 交換予定でも、完了/スキップボタンは表示する（badgeは冗長なので省略）
+        actions = `
+          <button class="btn btn-done" onclick="openDoneModal('${dateStr}','${scheduled}')">完了</button>
+          <button class="btn btn-skip" onclick="openSkipModal('${dateStr}','${scheduled}')">スキップ</button>`;
+      } else {
+        actions = badgeHTML(rec);
+      }
     } else {
-      actions = badgeHTML(rec);
+      actions = `${badgeHTML(rec)}<button class="undo-link" onclick="undoDay('${dateStr}')">取消</button>`;
     }
 
     return `
-      <div class="day-row${isToday?' today':''}">
-        <div class="day-label${isToday?' today-label':''}">${fmtMD(dateStr)}(${DAY_NAMES[parse(dateStr).getDay()]})</div>
-        <div class="day-member">${assigned}<span>さん</span>${note?`<div class="day-note">${note}</div>`:''}</div>
+      <div class="day-row${isToday ? ' today' : ''}">
+        <div class="day-label${isToday ? ' today-label' : ''}">${fmtMD(dateStr)}(${DAY_NAMES[parse(dateStr).getDay()]})</div>
+        <div class="day-main">
+          <div class="day-member">${dayMemberHTML(scheduled, effective, rec)}</div>
+          ${note ? `<div class="day-note">${note}</div>` : ''}
+          ${extraNote}
+        </div>
         <div class="day-actions">${actions}</div>
       </div>`;
   }
 
-  // ── Marketing week summary string for upcoming list ──────
   function mktWeekSummary(mondayStr) {
     const days = getWorkdays(mondayStr);
-    const names = days.map(d => getAssigned(d)).filter(Boolean);
+    const names = days.map(d => getEffective(d)).filter(Boolean);
     if (!names.length) return '';
     const first = names[0], last = names[names.length-1];
     return first === last ? first+'さん×5日' : `${first}〜${last}さん`;
   }
 
-  // ── Main render ──────────────────────────────────────────
+  // ── Main render ──────────────────────────────────────
   function render() {
     const today       = toStr(new Date());
     const thisMonday  = getMondayOf(today);
     const startMonday = data.startDate;
     const beforeStart = parse(thisMonday) < parse(startMonday);
 
-    // ── Current week ──
     let currentHTML = '';
 
     if (beforeStart) {
@@ -564,7 +761,7 @@
           <div class="sales-banner-date">${fmtMD(thisMonday)}(月)〜${fmtMD(getFriday(thisMonday))}(金)</div>
         </div>`;
     } else {
-      const days    = getWorkdays(thisMonday);
+      const days = getWorkdays(thisMonday);
       const dayRows = days.map(d => dayRowHTML(d, today, true)).join('');
       currentHTML = `
         <div class="week-card">
@@ -576,7 +773,7 @@
         </div>`;
     }
 
-    // ── Upcoming weeks (show next 10 weeks) ──
+    // 次週以降（10週）
     const upcomingItems = [];
     for (let i = 1; i <= 10; i++) {
       const mon = addWeeks(thisMonday, i);
@@ -602,7 +799,6 @@
           </div>`);
       }
     }
-
     const rotationOrder = data.members.join(' → ');
     const upcomingHTML = `
       <div class="sec-title">次週以降</div>
@@ -611,7 +807,7 @@
         <div class="rotation-hint">マーケ順：${rotationOrder} → 繰り返し（1週おき5日分）</div>
       </div>`;
 
-    // ── Past records ──
+    // 過去
     const pastMondays = [];
     let pw = addWeeks(thisMonday, -1);
     for (let i = 0; i < 16; i++) {
@@ -619,7 +815,6 @@
       pastMondays.push(pw);
       pw = addWeeks(pw, -1);
     }
-
     let pastHTML = '';
     if (pastMondays.length) {
       let pastBody = '';
@@ -635,7 +830,6 @@
                 </div>
                 <span class="upcoming-tag tag-sales">営業</span>
               </div>`;
-            // Marketing past week — show day rows
             const days = getWorkdays(mon);
             const dayRows = days.map(d => dayRowHTML(d, today, true)).join('');
             return `
@@ -650,12 +844,12 @@
       }
       pastHTML = `
         <button class="sec-toggle" onclick="togglePast()">
-          <span>${showPast?'▼':'▶'}</span> 過去の記録（${pastMondays.length}週）
+          <span>${showPast ? '▼' : '▶'}</span> 過去の記録（${pastMondays.length}週）
         </button>
         ${pastBody}`;
     }
 
-    // ── Members section ──
+    // メンバー管理
     const chips = data.members.map((m, i) => `
       <div class="chip" draggable="true" data-index="${i}"
            ondragstart="ds(event,${i})" ondragover="dov(event,${i})"
@@ -682,7 +876,6 @@
 
   function togglePast() { showPast = !showPast; render(); }
 
-  // ── Member management ────────────────────────────────────
   async function removeMember(i) {
     if (data.members.length <= 1) { toast('最低1人は必要です'); return; }
     if (!confirm(`${data.members[i]}さんを削除しますか？`)) return;
@@ -690,7 +883,6 @@
     await apiMembers(data.members.filter((_,j) => j!==i));
     toast(`${name}さんを削除しました`);
   }
-
   async function addMember() {
     const inp  = document.getElementById('newName');
     const name = inp.value.trim();
@@ -701,7 +893,6 @@
     toast(`${name}さんを追加しました`);
   }
 
-  // ── Drag & drop ──────────────────────────────────────────
   function ds(e,i) { dragIdx=i; e.currentTarget.classList.add('dragging'); }
   function dov(e,i) {
     e.preventDefault();
@@ -723,7 +914,6 @@
     document.querySelectorAll('.chip').forEach(el=>el.classList.remove('dragging','drag-over'));
   }
 
-  // ── Init ─────────────────────────────────────────────────
   fetchData();
   setInterval(fetchData, 30000);
 </script>

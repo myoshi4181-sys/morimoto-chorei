@@ -22,10 +22,15 @@ if (!USE_GIST) {
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 営業週メンバー（指定順）
+const SALES_DEFAULT = ['山川', '柴田', '佐藤（悠）', '大塚', '松岡', '柳井', '中西', '楫野', '田中', '松本', '目谷'];
+
 const defaultData = {
   members: ['村上', '吉徳', '長瀬', '尾﨑', '大輔', '中山', '須藤', '島崎', '古川', '堀田'],
+  salesMembers: SALES_DEFAULT.slice(),
   startDate: '2026-05-18',
   startMemberIndex: 0,
+  salesStartMemberIndex: 0,
   dayRecords: {}
 };
 
@@ -35,6 +40,13 @@ let cache = null;
 // ── 古いデータ形式 → 新形式への移行 ─────────────────────
 function migrate(data) {
   if (!data.dayRecords) data.dayRecords = {};
+  // 営業週メンバーが未登録の既存データ（Gist）には既定値を注入
+  if (!Array.isArray(data.salesMembers) || data.salesMembers.length === 0) {
+    data.salesMembers = SALES_DEFAULT.slice();
+  }
+  if (typeof data.salesStartMemberIndex !== 'number') {
+    data.salesStartMemberIndex = 0;
+  }
   for (const date in data.dayRecords) {
     const rec = data.dayRecords[date];
     if (rec.completedBy && !rec.actualBy) {
@@ -173,7 +185,12 @@ app.post('/api/members', async (req, res) => {
   try {
     const data = await loadData();
     if (!Array.isArray(req.body.members)) return res.status(400).json({ error: 'Invalid members' });
-    data.members = req.body.members;
+    // dept で更新先を切替（既定はマーケ）。'sales' のときだけ営業メンバーを更新
+    if (req.body.dept === 'sales') {
+      data.salesMembers = req.body.members;
+    } else {
+      data.members = req.body.members;
+    }
     await saveData(data);
     res.json({ success: true });
   } catch (e) {
@@ -190,7 +207,7 @@ const server = app.listen(PORT, '0.0.0.0', () => {
     .map(i => i.address);
 
   console.log('\n=====================================');
-  console.log('  マーケ朝礼当番アプリ 起動中');
+  console.log('  もりもと朝礼当番アプリ 起動中');
   console.log('=====================================');
   console.log(`  Storage: ${USE_GIST ? `GitHub Gist (${GIST_ID})` : `Local file (${DATA_FILE})`}`);
   console.log(`\n  このPC:       http://localhost:${PORT}`);

@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>マーケ 朝礼当番</title>
+  <title>もりもと 朝礼当番</title>
   <style>
     :root {
       --blue:    #2563eb;
       --blue-bg: #eff6ff;
+      --blue-mid:#dbeafe;
+      --orange:      #ea580c;
+      --orange-bg:   #fff7ed;
+      --orange-mid:  #ffedd5;
+      --orange-text: #9a3412;
       --green:      #16a34a;
       --green-bg:   #dcfce7;
       --green-text: #166534;
-      --orange:      #d97706;
-      --orange-bg:   #fef3c7;
-      --orange-text: #92400e;
       --purple:      #9333ea;
       --purple-bg:   #f3e8ff;
       --purple-text: #6b21a8;
@@ -41,169 +43,148 @@
     .header {
       background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
       color: white;
-      padding: 16px 16px 18px;
+      padding: 14px 16px 16px;
       text-align: center;
       position: sticky; top: 0; z-index: 50;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    .header h1 { font-size: 19px; font-weight: 700; }
-    .header p  { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+    .header h1 { font-size: 18px; font-weight: 700; }
+    .header p  { font-size: 11px; opacity: 0.85; margin-top: 2px; }
 
-    .container { max-width: 600px; margin: 0 auto; padding: 14px 12px 60px; }
+    .container { max-width: 640px; margin: 0 auto; padding: 14px 12px 60px; }
 
     .sec-title {
       font-size: 11px; font-weight: 700; color: var(--gray-400);
       text-transform: uppercase; letter-spacing: 1px;
       padding: 0 4px; margin: 18px 0 7px;
     }
-    .sec-toggle {
-      display: flex; align-items: center; gap: 5px;
-      background: none; border: none; cursor: pointer; font-family: inherit;
-      font-size: 11px; font-weight: 700; color: var(--gray-400);
-      text-transform: uppercase; letter-spacing: 1px;
-      padding: 0 4px; margin: 18px 0 7px;
-    }
 
-    .week-card {
-      background: white; border-radius: 14px;
-      overflow: hidden; margin-bottom: 12px;
-      box-shadow: 0 3px 12px rgba(37,99,235,0.12);
-      border: 2px solid var(--blue);
+    /* 凡例 */
+    .legend {
+      display: flex; gap: 14px; justify-content: center;
+      font-size: 12px; color: var(--gray-600); margin-bottom: 10px;
     }
-    .week-card-head {
-      background: var(--blue-bg);
-      padding: 10px 16px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .week-card-label { font-size: 12px; font-weight: 700; color: var(--blue); }
-    .week-card-dates { font-size: 12px; color: var(--gray-500); }
+    .legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend .dot { width: 11px; height: 11px; border-radius: 3px; }
+    .dot-mkt   { background: var(--blue); }
+    .dot-sales { background: var(--orange); }
 
-    .day-row {
-      display: flex; align-items: center;
-      padding: 11px 14px;
-      border-bottom: 1px solid var(--gray-100);
-      gap: 8px;
-    }
-    .day-row:last-child { border-bottom: none; }
-    .day-row.today { background: #fefce8; }
-
-    .day-label {
-      width: 56px; flex-shrink: 0;
-      font-size: 13px; font-weight: 600; color: var(--gray-500);
-    }
-    .day-label.today-label { color: var(--orange); }
-
-    .day-main { flex: 1; min-width: 0; }
-    .day-member {
-      font-size: 16px; font-weight: 600; color: var(--gray-900);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .day-member .scheduled-strike {
-      font-size: 12px; color: var(--gray-400); font-weight: 500;
-      text-decoration: line-through;
-    }
-    .day-member .swap-arrow {
-      color: var(--purple); font-weight: 700; margin: 0 2px; font-size: 13px;
-    }
-    .day-member span.suffix { font-size: 12px; color: var(--gray-400); font-weight: 400; margin-left: 1px; }
-    .day-note {
-      font-size: 11px; color: var(--purple); margin-top: 2px;
-      font-weight: 500;
-    }
-    .day-note.gray { color: var(--gray-400); font-weight: 400; }
-
-    .day-actions { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-
-    .sales-banner {
-      background: white; border-radius: 14px;
-      padding: 20px 16px; margin-bottom: 12px;
-      text-align: center;
+    /* 今日バナー */
+    .today-banner {
+      background: white; border-radius: 12px;
+      padding: 12px 14px; margin-bottom: 12px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-      border: 2px solid var(--gray-200);
+      display: flex; align-items: center; gap: 10px;
+      border-left: 5px solid var(--gray-300);
     }
-    .sales-banner-icon { font-size: 32px; margin-bottom: 6px; }
-    .sales-banner-text { font-size: 15px; color: var(--gray-500); }
-    .sales-banner-date { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
-
-    .prestart-banner {
-      background: white; border-radius: 14px;
-      padding: 22px 16px; margin-bottom: 12px;
-      text-align: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    }
-    .prestart-icon { font-size: 36px; margin-bottom: 8px; }
-    .prestart-text { font-size: 15px; color: var(--gray-600); }
-    .prestart-date { font-size: 20px; font-weight: 700; color: var(--blue); margin-top: 4px; }
-
-    .upcoming-list {
-      background: white; border-radius: 12px; overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    }
-    .upcoming-item {
-      display: flex; align-items: center;
-      padding: 12px 14px; border-bottom: 1px solid var(--gray-100); gap: 10px;
-    }
-    .upcoming-item:last-child { border-bottom: none; }
-    .upcoming-item.sales-item { background: var(--gray-50); }
-
-    .upcoming-left { flex: 1; }
-    .upcoming-dates { font-size: 11px; color: var(--gray-400); margin-bottom: 2px; }
-    .upcoming-info  { font-size: 14px; font-weight: 600; color: var(--gray-700); }
-    .upcoming-info.sales { color: var(--gray-400); font-weight: 500; }
-    .upcoming-tag {
-      font-size: 10px; font-weight: 700; padding: 2px 7px;
-      border-radius: 99px; flex-shrink: 0;
+    .today-banner.mkt   { border-left-color: var(--blue); }
+    .today-banner.sales { border-left-color: var(--orange); }
+    .today-banner .tb-icon { font-size: 26px; }
+    .today-banner .tb-label { font-size: 11px; color: var(--gray-400); font-weight: 700; }
+    .today-banner .tb-name { font-size: 17px; font-weight: 700; color: var(--gray-900); }
+    .today-banner .tb-tag {
+      margin-left: auto; font-size: 11px; font-weight: 700;
+      padding: 3px 9px; border-radius: 99px;
     }
     .tag-mkt   { background: var(--blue-bg); color: var(--blue); }
-    .tag-sales { background: var(--gray-100); color: var(--gray-400); }
+    .tag-sales { background: var(--orange-bg); color: var(--orange-text); }
 
-    .btn {
-      padding: 6px 10px; border-radius: 7px; font-size: 12px;
-      font-weight: 600; border: none; cursor: pointer; font-family: inherit;
-      transition: opacity 0.15s;
+    /* 月ナビ */
+    .month-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
     }
-    .btn:active { opacity: 0.75; }
-    .btn-done   { background: var(--green); color: white; }
-    .btn-skip   { background: var(--orange-bg); color: var(--orange-text); }
-    .btn-cancel { background: var(--gray-200); color: var(--gray-700); }
-    .btn-confirm { background: var(--blue); color: white; }
-    .btn-purple { background: var(--purple); color: white; }
-
-    .badge {
-      display: inline-flex; align-items: center; gap: 3px;
-      padding: 3px 8px; border-radius: 99px;
-      font-size: 11px; font-weight: 600; white-space: nowrap;
+    .month-nav .mn-title { font-size: 17px; font-weight: 700; color: var(--gray-800); }
+    .month-nav .mn-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: white; border: 1px solid var(--gray-200);
+      font-size: 18px; cursor: pointer; color: var(--gray-600);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
-    .badge-pending   { background: var(--gray-100); color: var(--gray-500); }
-    .badge-completed { background: var(--green-bg); color: var(--green-text); }
-    .badge-skipped   { background: var(--orange-bg); color: var(--orange-text); }
-    .badge-swap      { background: var(--purple-bg); color: var(--purple-text); }
-
-    .undo-link {
-      font-size: 11px; color: var(--blue); background: none;
-      border: none; cursor: pointer; text-decoration: underline; font-family: inherit;
+    .month-nav .mn-btn:active { background: var(--gray-100); }
+    .mn-today {
+      font-size: 12px; font-weight: 600; color: var(--blue);
+      background: none; border: none; cursor: pointer; padding: 4px 8px;
+      font-family: inherit;
     }
 
-    .rotation-hint {
-      font-size: 11px; color: var(--gray-400); text-align: center;
-      padding: 9px 12px; background: white;
-      border-top: 1px dashed var(--gray-200); word-break: break-all;
+    /* カレンダー */
+    .cal {
+      background: white; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
+    .cal-head {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      background: var(--gray-50); border-bottom: 1px solid var(--gray-200);
+    }
+    .cal-head div {
+      text-align: center; font-size: 11px; font-weight: 700;
+      color: var(--gray-500); padding: 7px 0;
+    }
+    .cal-week { display: grid; grid-template-columns: repeat(5, 1fr); }
+    .cell {
+      min-height: 66px; padding: 4px 3px 5px;
+      border-bottom: 1px solid var(--gray-100);
+      border-right: 1px solid var(--gray-100);
+      display: flex; flex-direction: column; align-items: stretch;
+      position: relative; cursor: default;
+    }
+    .cell:nth-child(5n) { border-right: none; }
+    .cal-week:last-child .cell { border-bottom: none; }
+    .cell.mkt   { background: var(--blue-bg); }
+    .cell.sales { background: var(--orange-bg); }
+    .cell.tappable { cursor: pointer; }
+    .cell.tappable:active { filter: brightness(0.96); }
+    .cell.out { background: var(--gray-50); }
+    .cell.today { box-shadow: inset 0 0 0 2px var(--orange); }
 
+    .cell-date {
+      font-size: 11px; font-weight: 700; color: var(--gray-400);
+      line-height: 1.1; margin-bottom: 2px;
+    }
+    .cell.mkt .cell-date   { color: var(--blue); }
+    .cell.sales .cell-date { color: var(--orange); }
+    .cell.out .cell-date   { color: var(--gray-300); }
+    .cell-name {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--gray-900);
+      text-align: center; line-height: 1.15; word-break: break-all;
+      padding: 0 1px;
+    }
+    .cell-name .strike {
+      display: block; font-size: 9px; color: var(--gray-400);
+      text-decoration: line-through; font-weight: 500;
+    }
+    .cell-status {
+      position: absolute; top: 3px; right: 4px; font-size: 11px; line-height: 1;
+    }
+    .cell-empty { flex: 1; }
+
+    /* メンバー管理 */
     .members-box {
       background: white; border-radius: 12px; padding: 16px;
-      margin-top: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      margin-top: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     }
-    .members-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 11px; }
+    .members-box h3 {
+      font-size: 14px; font-weight: 700; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .members-box h3 .mtag {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+    }
     .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 11px; }
     .chip {
       display: flex; align-items: center; gap: 5px;
       background: var(--gray-100); border-radius: 99px;
-      padding: 5px 10px 5px 12px; font-size: 14px; font-weight: 500;
+      padding: 5px 9px 5px 11px; font-size: 14px; font-weight: 500;
       cursor: grab; user-select: none;
     }
+    .chip .num {
+      font-size: 10px; font-weight: 700; color: var(--gray-400);
+      min-width: 13px; text-align: right;
+    }
     .chip.dragging  { opacity: 0.35; }
-    .chip.drag-over { outline: 2px dashed var(--blue); }
+    .chip.drag-over { outline: 2px dashed var(--gray-500); }
     .chip-x {
       width: 17px; height: 17px; border-radius: 50%;
       background: var(--gray-400); color: white; border: none;
@@ -220,12 +201,38 @@
     }
     .add-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
     .add-btn {
-      padding: 9px 15px; background: var(--blue); color: white;
+      padding: 9px 15px; color: white;
       border: none; border-radius: 8px; font-size: 14px;
       font-weight: 600; cursor: pointer; font-family: inherit;
     }
+    .add-btn.mkt   { background: var(--blue); }
+    .add-btn.sales { background: var(--orange); }
     .members-note { font-size: 11px; color: var(--gray-400); margin-top: 7px; }
 
+    .mgmt-toggle {
+      display: flex; align-items: center; gap: 5px;
+      background: none; border: none; cursor: pointer; font-family: inherit;
+      font-size: 11px; font-weight: 700; color: var(--gray-400);
+      text-transform: uppercase; letter-spacing: 1px;
+      padding: 0 4px; margin: 22px 0 4px;
+    }
+
+    /* ボタン共通 */
+    .btn {
+      padding: 6px 10px; border-radius: 7px; font-size: 12px;
+      font-weight: 600; border: none; cursor: pointer; font-family: inherit;
+      transition: opacity 0.15s;
+    }
+    .btn:active { opacity: 0.75; }
+    .btn-cancel { background: var(--gray-200); color: var(--gray-700); }
+    .btn-confirm { background: var(--blue); color: white; }
+
+    .undo-link {
+      font-size: 12px; color: var(--red); background: none;
+      border: none; cursor: pointer; text-decoration: underline; font-family: inherit;
+    }
+
+    /* モーダル */
     .overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.45);
       display: flex; align-items: flex-end; justify-content: center;
@@ -234,35 +241,34 @@
     .overlay.open { opacity: 1; pointer-events: all; }
     .modal {
       background: white; border-radius: 20px 20px 0 0;
-      padding: 20px 18px 30px; width: 100%; max-width: 600px;
+      padding: 20px 18px 30px; width: 100%; max-width: 640px;
       transform: translateY(110%);
       transition: transform 0.26s cubic-bezier(0.4,0,0.2,1);
       max-height: 90vh; overflow-y: auto;
     }
     .overlay.open .modal { transform: translateY(0); }
     .modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
-    .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 16px; }
-
-    .opt-list {
-      display: flex; flex-direction: column; gap: 8px;
-      margin-bottom: 14px;
+    .modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 14px; }
+    .modal-status {
+      font-size: 13px; margin-bottom: 14px; padding: 9px 11px;
+      background: var(--gray-50); border-radius: 9px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
+
+    .opt-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
     .opt {
       border: 1.5px solid var(--gray-200);
       border-radius: 10px; padding: 12px;
-      cursor: pointer;
-      transition: border-color 0.15s, background 0.15s;
+      cursor: pointer; transition: border-color 0.15s, background 0.15s;
     }
     .opt:hover { border-color: var(--gray-400); }
     .opt.selected { border-color: var(--blue); background: var(--blue-bg); }
     .opt-title { font-size: 14px; font-weight: 700; color: var(--gray-800); }
     .opt-desc { font-size: 11px; color: var(--gray-500); margin-top: 3px; }
     .opt-select {
-      margin-top: 8px;
-      width: 100%; padding: 8px 10px;
+      margin-top: 8px; width: 100%; padding: 8px 10px;
       border: 1px solid var(--gray-300); border-radius: 7px;
-      font-size: 14px; font-family: inherit; outline: none;
-      background: white;
+      font-size: 14px; font-family: inherit; outline: none; background: white;
     }
     .opt-select:focus { border-color: var(--blue); }
     .opt-preview {
@@ -273,14 +279,13 @@
 
     .field { margin-bottom: 12px; }
     .field label { display: block; font-size: 13px; color: var(--gray-600); margin-bottom: 4px; font-weight: 500; }
-    .field select, .field textarea {
+    .field textarea {
       width: 100%; padding: 9px 12px;
       border: 1px solid var(--gray-300); border-radius: 8px;
-      font-size: 15px; font-family: inherit; outline: none;
+      font-size: 15px; font-family: inherit; outline: none; resize: none; height: 56px;
     }
-    .field textarea { resize: none; height: 60px; }
 
-    .modal-btns { display: flex; gap: 9px; margin-top: 14px; }
+    .modal-btns { display: flex; gap: 9px; margin-top: 8px; }
     .modal-btns .btn { flex: 1; padding: 12px; font-size: 15px; }
 
     .toast {
@@ -296,68 +301,62 @@
 <body>
 
 <div class="header">
-  <h1>🎤 マーケ 朝礼当番</h1>
-  <p>マーケティング部 ／ 1週おき交代制（平日毎日）</p>
+  <h1>🎤 もりもと 朝礼当番</h1>
+  <p>マーケ／営業 1週おき交代制（平日毎日）</p>
 </div>
 
 <div class="container" id="app">
   <div style="text-align:center;padding:60px 0;color:#9ca3af;">読み込み中...</div>
 </div>
 
-<!-- Done modal -->
-<div class="overlay" id="doneOverlay" onclick="closeOnBg(event,'doneOverlay')">
+<!-- 日別アクションモーダル -->
+<div class="overlay" id="dayOverlay" onclick="closeOnBg(event,'dayOverlay')">
   <div class="modal">
-    <h3>✅ 完了を記録</h3>
-    <p class="modal-sub" id="doneInfo"></p>
-    <div class="field">
-      <label>実施者</label>
-      <select id="doneBy"></select>
-    </div>
-    <div class="field">
-      <label>メモ（任意）</label>
-      <textarea id="doneNote" placeholder="何かあれば..."></textarea>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-cancel" onclick="closeOverlay('doneOverlay')">キャンセル</button>
-      <button class="btn btn-confirm" onclick="confirmDone()">完了を記録</button>
-    </div>
-  </div>
-</div>
+    <h3 id="dayTitle">朝礼当番</h3>
+    <p class="modal-sub" id="daySub"></p>
 
-<!-- Skip/Swap modal -->
-<div class="overlay" id="skipOverlay" onclick="closeOnBg(event,'skipOverlay')">
-  <div class="modal">
-    <h3>⏭ スキップ・代行・交換</h3>
-    <p class="modal-sub" id="skipInfo"></p>
+    <div class="modal-status" id="dayStatus" style="display:none;">
+      <span id="dayStatusText"></span>
+      <button class="undo-link" onclick="undoFromModal()">取消</button>
+    </div>
 
     <div class="opt-list">
+      <div class="opt" id="optDone" onclick="selectOpt('done')">
+        <div class="opt-title">✅ 完了を記録</div>
+        <div class="opt-desc">この日の朝礼が終わったら記録</div>
+        <select class="opt-select" id="donePerson"
+          onchange="event.stopPropagation();" onclick="event.stopPropagation();selectOpt('done')"></select>
+      </div>
+
       <div class="opt" id="optHoliday" onclick="selectOpt('holiday')">
         <div class="opt-title">🏠 お休み（誰も対応しない）</div>
         <div class="opt-desc">この日は朝礼担当者なし</div>
       </div>
 
       <div class="opt" id="optCover" onclick="selectOpt('cover')">
-        <div class="opt-title">🤝 代行してもらう（その日だけ）</div>
-        <div class="opt-desc">他の人が代わりに対応。<strong>次回のローテーションは変わらない</strong></div>
-        <select class="opt-select" id="coverPerson" onchange="event.stopPropagation();" onclick="event.stopPropagation();selectOpt('cover')"></select>
+        <div class="opt-title">🤝 代行（その日だけ）</div>
+        <div class="opt-desc">同じ部の人が代わりに対応。<strong>ローテーションは変わらない</strong></div>
+        <select class="opt-select" id="coverPerson"
+          onchange="event.stopPropagation();" onclick="event.stopPropagation();selectOpt('cover')"></select>
       </div>
 
       <div class="opt" id="optSwap" onclick="selectOpt('swap')">
-        <div class="opt-title">🔄 番を交換する</div>
-        <div class="opt-desc">代行してもらう代わりに、<strong>次回その人の番に自分が入る</strong></div>
-        <select class="opt-select" id="swapPerson" onchange="updateSwapPreview();event.stopPropagation();" onclick="event.stopPropagation();selectOpt('swap')"></select>
+        <div class="opt-title">🔄 日にちを交代</div>
+        <div class="opt-desc">同じ部の<strong>別の日</strong>と担当を入れ替える</div>
+        <select class="opt-select" id="swapDay"
+          onchange="updateSwapPreview();event.stopPropagation();" onclick="event.stopPropagation();selectOpt('swap')"></select>
         <div class="opt-preview" id="swapPreview" style="display:none;"></div>
       </div>
     </div>
 
     <div class="field">
       <label>メモ（任意）</label>
-      <textarea id="skipNote" placeholder="理由など..."></textarea>
+      <textarea id="dayNote" placeholder="理由など..."></textarea>
     </div>
 
     <div class="modal-btns">
-      <button class="btn btn-cancel" onclick="closeOverlay('skipOverlay')">キャンセル</button>
-      <button class="btn btn-confirm" id="skipConfirmBtn" onclick="confirmSkip()" disabled>選択してください</button>
+      <button class="btn btn-cancel" onclick="closeOverlay('dayOverlay')">閉じる</button>
+      <button class="btn btn-confirm" id="dayConfirmBtn" onclick="confirmDay()" disabled>選択してください</button>
     </div>
   </div>
 </div>
@@ -367,94 +366,82 @@
 <script>
   let data = null;
   let modalDate = null;
-  let modalAssigned = null;
-  let modalOption = null;  // 'holiday' | 'cover' | 'swap'
-  let showPast = false;
-  let dragIdx = null;
+  let modalScheduled = null;
+  let modalDept = null;
+  let modalOption = null;  // 'done' | 'holiday' | 'cover' | 'swap'
+  let dispYear, dispMonth;  // 表示中の年・月(0-based)
+  let showMgmt = false;
+  let dragIdx = null, dragDept = null;
 
   const DAY_NAMES = ['日','月','火','水','木','金','土'];
+  const WEEKDAY_HEAD = ['月','火','水','木','金'];
 
-  // ── Date helpers ─────────────────────────────────────
-  function toStr(d) { return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`; }
+  // ── 日付ヘルパー ─────────────────────────────────────
   function p2(n) { return String(n).padStart(2,'0'); }
+  function toStr(d) { return `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`; }
   function parse(s) { return new Date(s + 'T00:00:00'); }
-
-  function getMondayOf(dateStr) {
-    const d = parse(dateStr);
-    const day = d.getDay();
+  function addDays(s, n) { const d = parse(s); d.setDate(d.getDate()+n); return toStr(d); }
+  function addWeeks(s, n) { return addDays(s, n*7); }
+  function getMondayOf(s) {
+    const d = parse(s); const day = d.getDay();
     d.setDate(d.getDate() + (day === 0 ? -6 : 1 - day));
     return toStr(d);
   }
-  function addDays(dateStr, n) {
-    const d = parse(dateStr);
-    d.setDate(d.getDate() + n);
-    return toStr(d);
-  }
-  function addWeeks(mondayStr, n) { return addDays(mondayStr, n * 7); }
-  function getFriday(mondayStr) { return addDays(mondayStr, 4); }
-  function fmtMD(s) {
-    const d = parse(s);
-    return `${d.getMonth()+1}/${d.getDate()}`;
-  }
-  function fmtMDday(s) {
-    const d = parse(s);
-    return `${d.getMonth()+1}/${d.getDate()}(${DAY_NAMES[d.getDay()]})`;
-  }
-  function fmtFull(s) {
-    const d = parse(s);
-    return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
-  }
-  function getWorkdays(mondayStr) {
-    return [0,1,2,3,4].map(i => addDays(mondayStr, i));
-  }
+  function fmtMDday(s) { const d = parse(s); return `${d.getMonth()+1}/${d.getDate()}(${DAY_NAMES[d.getDay()]})`; }
+  function fmtFull(s) { const d = parse(s); return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日(${DAY_NAMES[d.getDay()]})`; }
 
-  // ── Rotation logic ───────────────────────────────────
+  // ── ローテーション ───────────────────────────────────
   function weeksSinceStart(mondayStr) {
     const startMs = parse(data.startDate).getTime();
     const curMs   = parse(mondayStr).getTime();
     return Math.round((curMs - startMs) / (7 * 86400000));
   }
-  function isMarketingWeek(mondayStr) {
+  function deptOfMonday(mondayStr) {
     const w = weeksSinceStart(mondayStr);
-    return w >= 0 && w % 2 === 0;
+    if (w < 0) return null;
+    return (w % 2 === 0) ? 'mkt' : 'sales';
   }
+  // ローテーションに基づく「予定」担当者 → {dept, name} または null
   function getAssigned(dateStr) {
-    // ローテーションに基づく「予定された」担当者
-    if (!data.members.length) return null;
     const monday = getMondayOf(dateStr);
     const w = weeksSinceStart(monday);
-    if (w < 0 || w % 2 !== 0) return null;
-    const d = parse(dateStr);
-    const dow = d.getDay();
+    if (w < 0) return null;
+    const dow = parse(dateStr).getDay();
     if (dow < 1 || dow > 5) return null;
-    const mktWeekNum = w / 2;
-    const dayOffset  = dow - 1;
-    const slot = data.startMemberIndex + mktWeekNum * 5 + dayOffset;
-    const idx  = ((slot % data.members.length) + data.members.length) % data.members.length;
-    return data.members[idx];
+    const dayOffset = dow - 1;
+    if (w % 2 === 0) {
+      const list = data.members || [];
+      if (!list.length) return null;
+      const slot = (data.startMemberIndex || 0) + (w/2)*5 + dayOffset;
+      return { dept: 'mkt', name: list[((slot % list.length)+list.length) % list.length] };
+    } else {
+      const list = data.salesMembers || [];
+      if (!list.length) return null;
+      const slot = (data.salesStartMemberIndex || 0) + ((w-1)/2)*5 + dayOffset;
+      return { dept: 'sales', name: list[((slot % list.length)+list.length) % list.length] };
+    }
   }
-  function getDayRecord(dateStr) {
-    return (data.dayRecords || {})[dateStr] || { status: 'pending' };
-  }
+  function getDayRecord(dateStr) { return (data.dayRecords || {})[dateStr] || { status: 'pending' }; }
   function getEffective(dateStr) {
     const rec = getDayRecord(dateStr);
-    return rec.actualBy || getAssigned(dateStr);
+    const a = getAssigned(dateStr);
+    return rec.actualBy || (a ? a.name : null);
   }
+  function deptMembers(dept) { return (dept === 'sales' ? data.salesMembers : data.members) || []; }
 
-  // 指定メンバーの次のマーケ担当日を探す（指定日より後、最大90日先まで）
-  function findNextScheduledDay(memberName, fromDateStr) {
-    let cursor = fromDateStr;
-    for (let i = 0; i < 90; i++) {
-      cursor = addDays(cursor, 1);
-      const assigned = getAssigned(cursor);
-      if (assigned !== memberName) continue;
-      const rec = getDayRecord(cursor);
-      // すでに完了/スキップ/交換済みの日はスキップ
-      if (rec.status && rec.status !== 'pending') continue;
-      if (rec.swapWith) continue;
-      return cursor;
+  // 同じ部の交代候補日（表示月の頭から45日窓、完了/休み済みは除外）
+  function listSwapDays(excludeDate, dept) {
+    const out = [];
+    let cur = `${dispYear}-${p2(dispMonth+1)}-01`;
+    for (let i = 0; i < 45; i++) {
+      const a = getAssigned(cur);
+      if (a && a.dept === dept && cur !== excludeDate) {
+        const rec = getDayRecord(cur);
+        if (rec.status !== 'completed' && rec.status !== 'skipped') out.push(cur);
+      }
+      cur = addDays(cur, 1);
     }
-    return null;
+    return out;
   }
 
   // ── API ──────────────────────────────────────────────
@@ -464,6 +451,7 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       data = await res.json();
       if (!data.dayRecords) data.dayRecords = {};
+      if (!data.salesMembers) data.salesMembers = [];
       render();
     } catch (e) {
       console.error('Load error:', e);
@@ -472,34 +460,25 @@
     }
   }
   async function apiDay(date, record) {
-    const r = await fetch('/api/day', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date, record })
-    });
+    const r = await fetch('/api/day', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ date, record }) });
     if (!r.ok) throw new Error('Save failed');
     await fetchData();
   }
   async function apiSwap(dateA, recordA, dateB, recordB) {
-    const r = await fetch('/api/swap', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dateA, recordA, dateB, recordB })
-    });
+    const r = await fetch('/api/swap', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ dateA, recordA, dateB, recordB }) });
     if (!r.ok) throw new Error('Swap save failed');
     await fetchData();
   }
-  async function apiMembers(members) {
-    const r = await fetch('/api/members', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ members })
-    });
+  async function apiMembers(members, dept) {
+    const r = await fetch('/api/members', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ members, dept }) });
     if (!r.ok) throw new Error('Members save failed');
     await fetchData();
   }
 
-  // ── Toast ────────────────────────────────────────────
+  // ── トースト ─────────────────────────────────────────
   function toast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg;
@@ -508,156 +487,143 @@
     el._t = setTimeout(() => el.classList.remove('show'), 2800);
   }
 
-  // ── Modal ────────────────────────────────────────────
+  // ── モーダル ─────────────────────────────────────────
   function openOverlay(id)  { document.getElementById(id).classList.add('open'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
   function closeOnBg(e, id) { if (e.target === e.currentTarget) closeOverlay(id); }
 
-  function openDoneModal(dateStr, assigned) {
-    modalDate = dateStr; modalAssigned = assigned;
-    document.getElementById('doneInfo').textContent = `${fmtMDday(dateStr)}　予定: ${assigned}さん`;
-    const sel = document.getElementById('doneBy');
-    sel.innerHTML = '';
-    const effective = getEffective(dateStr) || assigned;
-    data.members.forEach(m => {
-      sel.innerHTML += `<option value="${m}" ${m === effective ? 'selected' : ''}>${m}さん</option>`;
-    });
-    document.getElementById('doneNote').value = '';
-    openOverlay('doneOverlay');
-  }
+  function openDayModal(dateStr) {
+    const a = getAssigned(dateStr);
+    if (!a) return;
+    modalDate = dateStr; modalScheduled = a.name; modalDept = a.dept; modalOption = null;
 
-  function openSkipModal(dateStr, assigned) {
-    modalDate = dateStr; modalAssigned = assigned;
-    modalOption = null;
-    document.getElementById('skipInfo').textContent = `${fmtMDday(dateStr)}　担当: ${assigned}さん`;
+    const deptLabel = a.dept === 'sales' ? '営業' : 'マーケ';
+    document.getElementById('dayTitle').textContent = `${fmtFull(dateStr)}`;
+    document.getElementById('daySub').textContent = `${deptLabel}週　予定担当: ${a.name}さん`;
 
-    // selectsを準備
-    const others = data.members.filter(m => m !== assigned);
+    const rec = getDayRecord(dateStr);
+    const eff = getEffective(dateStr);
+    // 現在の状態表示＋取消
+    const statusBox = document.getElementById('dayStatus');
+    const statusText = document.getElementById('dayStatusText');
+    if (rec.status === 'completed') {
+      statusBox.style.display = 'flex';
+      statusText.innerHTML = (eff !== a.name)
+        ? `✅ 完了済み（実施: <strong>${eff}さん</strong>）` : `✅ 完了済み`;
+    } else if (rec.status === 'skipped') {
+      statusBox.style.display = 'flex';
+      statusText.innerHTML = `🏠 お休みとして記録済み`;
+    } else if (rec.swapWith) {
+      statusBox.style.display = 'flex';
+      statusText.innerHTML = `🔄 ${fmtMDday(rec.swapWith)}と交代済み（担当: <strong>${eff}さん</strong>）`;
+    } else {
+      statusBox.style.display = 'none';
+    }
+
+    // 各セレクトを準備
+    const others = deptMembers(a.dept).filter(m => m !== a.name);
+    const doneSel = document.getElementById('donePerson');
+    doneSel.innerHTML = deptMembers(a.dept)
+      .map(m => `<option value="${m}" ${m === eff ? 'selected' : ''}>${m}さん が実施</option>`).join('');
     const coverSel = document.getElementById('coverPerson');
-    const swapSel  = document.getElementById('swapPerson');
-    coverSel.innerHTML = others.map(m => `<option value="${m}">${m}さん</option>`).join('');
-    swapSel.innerHTML  = others.map(m => `<option value="${m}">${m}さん</option>`).join('');
+    coverSel.innerHTML = others.map(m => `<option value="${m}">${m}さん が代行</option>`).join('');
+    const swapSel = document.getElementById('swapDay');
+    const swapDays = listSwapDays(dateStr, a.dept);
+    swapSel.innerHTML = swapDays.length
+      ? swapDays.map(d => `<option value="${d}">${fmtMDday(d)}（${getEffective(d)}さん）</option>`).join('')
+      : `<option value="">交代できる日がありません</option>`;
 
-    document.getElementById('skipNote').value = '';
+    document.getElementById('dayNote').value = '';
     document.getElementById('swapPreview').style.display = 'none';
     document.querySelectorAll('.opt').forEach(el => el.classList.remove('selected'));
-    document.getElementById('skipConfirmBtn').disabled = true;
-    document.getElementById('skipConfirmBtn').textContent = '選択してください';
+    const btn = document.getElementById('dayConfirmBtn');
+    btn.disabled = true; btn.textContent = '選択してください';
 
-    openOverlay('skipOverlay');
+    openOverlay('dayOverlay');
   }
 
   function selectOpt(opt) {
     modalOption = opt;
     document.querySelectorAll('.opt').forEach(el => el.classList.remove('selected'));
     document.getElementById('opt' + opt.charAt(0).toUpperCase() + opt.slice(1)).classList.add('selected');
-
-    const btn = document.getElementById('skipConfirmBtn');
+    const btn = document.getElementById('dayConfirmBtn');
     btn.disabled = false;
-    if (opt === 'holiday') btn.textContent = '休みとして記録';
-    else if (opt === 'cover') btn.textContent = '代行を記録';
-    else if (opt === 'swap')  btn.textContent = '交換を記録';
+    if (opt === 'done')         btn.textContent = '完了を記録';
+    else if (opt === 'holiday') btn.textContent = '休みとして記録';
+    else if (opt === 'cover')   btn.textContent = '代行を記録';
+    else if (opt === 'swap')    btn.textContent = '交代を記録';
 
     if (opt === 'swap') updateSwapPreview();
     else document.getElementById('swapPreview').style.display = 'none';
   }
 
   function updateSwapPreview() {
-    const partner = document.getElementById('swapPerson').value;
-    if (!partner) return;
-    const nextDate = findNextScheduledDay(partner, modalDate);
+    const partnerDate = document.getElementById('swapDay').value;
     const preview = document.getElementById('swapPreview');
-    if (!nextDate) {
-      preview.style.display = 'block';
-      preview.textContent = `⚠️ ${partner}さんの次の担当日が見つかりません（90日以内）`;
-      preview.style.background = '#fef2f2';
-      preview.style.color = '#991b1b';
-    } else {
-      preview.style.display = 'block';
-      preview.innerHTML =
-        `→ ${fmtMDday(modalDate)}は<strong>${partner}さん</strong>が対応<br>` +
-        `→ ${fmtMDday(nextDate)}は<strong>${modalAssigned}さん</strong>が対応（交換）`;
-      preview.style.background = 'var(--purple-bg)';
-      preview.style.color = 'var(--purple-text)';
-    }
+    if (!partnerDate) { preview.style.display = 'none'; return; }
+    const myEff = getEffective(modalDate);
+    const partnerEff = getEffective(partnerDate);
+    preview.style.display = 'block';
+    preview.innerHTML =
+      `→ ${fmtMDday(modalDate)}は<strong>${partnerEff}さん</strong>が対応<br>` +
+      `→ ${fmtMDday(partnerDate)}は<strong>${myEff}さん</strong>が対応（交代）`;
   }
 
-  async function confirmDone() {
-    const by   = document.getElementById('doneBy').value;
-    const note = document.getElementById('doneNote').value.trim();
+  async function confirmDay() {
+    const note = document.getElementById('dayNote').value.trim();
     try {
-      await apiDay(modalDate, {
-        status: 'completed',
-        actualBy: (by !== modalAssigned) ? by : null,
-        note: note || null
-      });
-      closeOverlay('doneOverlay');
-      toast('完了を記録しました ✅');
-    } catch (e) {
-      toast('保存失敗: ' + e.message);
-    }
-  }
-
-  async function confirmSkip() {
-    const note = document.getElementById('skipNote').value.trim();
-    try {
-      if (modalOption === 'holiday') {
+      if (modalOption === 'done') {
+        const by = document.getElementById('donePerson').value;
         await apiDay(modalDate, {
-          status: 'skipped',
-          actualBy: null,
-          swapWith: null,
+          status: 'completed',
+          actualBy: (by !== modalScheduled) ? by : null,
           note: note || null
         });
-        closeOverlay('skipOverlay');
+        toast('完了を記録しました ✅');
+      } else if (modalOption === 'holiday') {
+        await apiDay(modalDate, { status:'skipped', actualBy:null, swapWith:null, note: note || null });
         toast('お休みとして記録しました');
       } else if (modalOption === 'cover') {
         const cover = document.getElementById('coverPerson').value;
-        await apiDay(modalDate, {
-          status: 'completed',
-          actualBy: cover,
-          swapWith: null,
-          note: note || null
-        });
-        closeOverlay('skipOverlay');
+        await apiDay(modalDate, { status:'completed', actualBy:cover, swapWith:null, note: note || null });
         toast(`${cover}さんの代行で記録しました`);
       } else if (modalOption === 'swap') {
-        const partner = document.getElementById('swapPerson').value;
-        const partnerDate = findNextScheduledDay(partner, modalDate);
-        if (!partnerDate) {
-          toast(`${partner}さんの次の担当日が見つかりません`);
-          return;
-        }
-        // 交換は2日分まとめて更新
+        const partnerDate = document.getElementById('swapDay').value;
+        if (!partnerDate) { toast('交代する日を選んでください'); return; }
+        const myScheduled = modalScheduled;
+        const partnerScheduled = getAssigned(partnerDate).name;
+        const myEff = getEffective(modalDate);
+        const partnerEff = getEffective(partnerDate);
+        // 担当者を入れ替え（両日とも予定に戻し、actualBy で実担当を上書き）
         await apiSwap(
           modalDate,
-          { status: 'completed', actualBy: partner, swapWith: partnerDate, note: note || null },
+          { status:'pending', actualBy: (partnerEff !== myScheduled ? partnerEff : null), swapWith: partnerDate, note: note || null },
           partnerDate,
-          { status: 'pending', actualBy: modalAssigned, swapWith: modalDate, note: null }
+          { status:'pending', actualBy: (myEff !== partnerScheduled ? myEff : null), swapWith: modalDate, note: null }
         );
-        closeOverlay('skipOverlay');
-        toast(`${partner}さんと交換しました`);
-      }
+        toast(`${fmtMDday(partnerDate)}と交代しました`);
+      } else { return; }
+      closeOverlay('dayOverlay');
     } catch (e) {
       toast('保存失敗: ' + e.message);
     }
   }
+
+  async function undoFromModal() { await undoDay(modalDate); closeOverlay('dayOverlay'); }
 
   async function undoDay(dateStr) {
     const rec = getDayRecord(dateStr);
     try {
       if (rec.swapWith) {
-        // 交換ペアの両方を取り消す
         const partnerDate = rec.swapWith;
-        if (!confirm('交換ペアの両日を取り消します。よろしいですか？')) return;
+        if (!confirm('交代した両日の記録を取り消します。よろしいですか？')) return;
         await apiSwap(
-          dateStr,
-          { status: 'pending', actualBy: null, swapWith: null, note: null },
-          partnerDate,
-          { status: 'pending', actualBy: null, swapWith: null, note: null }
+          dateStr,      { status:'pending', actualBy:null, swapWith:null, note:null },
+          partnerDate,  { status:'pending', actualBy:null, swapWith:null, note:null }
         );
-        toast('交換を取り消しました');
+        toast('交代を取り消しました');
       } else {
-        await apiDay(dateStr, { status: 'pending', actualBy: null, swapWith: null, note: null });
+        await apiDay(dateStr, { status:'pending', actualBy:null, swapWith:null, note:null });
         toast('記録を取り消しました');
       }
     } catch (e) {
@@ -665,255 +631,194 @@
     }
   }
 
-  // ── Display helpers ──────────────────────────────────
-  function badgeHTML(rec) {
-    if (rec.status === 'completed') return '<span class="badge badge-completed">✅ 完了</span>';
-    if (rec.status === 'skipped')   return '<span class="badge badge-skipped">🏠 休み</span>';
-    if (rec.swapWith)               return '<span class="badge badge-swap">🔄 交換予定</span>';
-    return '<span class="badge badge-pending">📅 予定</span>';
-  }
-
-  function dayMemberHTML(scheduled, effective, rec) {
-    if (effective === scheduled) {
-      return `${scheduled}<span class="suffix">さん</span>`;
-    }
-    // 担当者が変わっている → 元の担当を取り消し線、実担当を太字
-    return `<span class="scheduled-strike">${scheduled}</span><span class="swap-arrow">→</span>${effective}<span class="suffix">さん</span>`;
-  }
-
-  function noteFor(rec, scheduled) {
-    if (rec.swapWith) {
-      return `🔄 ${fmtMDday(rec.swapWith)}と交換`;
-    }
-    if (rec.actualBy && rec.actualBy !== scheduled && rec.status === 'completed') {
-      return `🤝 ${scheduled}さんの代行`;
-    }
-    if (rec.note) return rec.note;
+  // ── カレンダー描画 ───────────────────────────────────
+  function statusIcon(rec) {
+    if (rec.status === 'completed') return '✅';
+    if (rec.status === 'skipped')   return '🏠';
+    if (rec.swapWith)               return '🔄';
     return '';
   }
 
-  function dayRowHTML(dateStr, today, interactive) {
-    const scheduled = getAssigned(dateStr);
-    if (!scheduled) return '';
-    const rec = getDayRecord(dateStr);
-    const effective = rec.actualBy || scheduled;
+  function cellHTML(dateStr, today) {
+    const inMonth = parse(dateStr).getMonth() === dispMonth && parse(dateStr).getFullYear() === dispYear;
+    const a = getAssigned(dateStr);
+    const dayNum = parse(dateStr).getDate();
     const isToday = dateStr === today;
 
-    const note = noteFor(rec, scheduled);
-    const extraNote = rec.note && (rec.swapWith || (rec.actualBy && rec.actualBy !== scheduled))
-      ? `<div class="day-note gray">${rec.note}</div>` : '';
-
-    let actions = '';
-    if (rec.status === 'pending') {
-      if (interactive) {
-        // 交換予定でも、完了/スキップボタンは表示する（badgeは冗長なので省略）
-        actions = `
-          <button class="btn btn-done" onclick="openDoneModal('${dateStr}','${scheduled}')">完了</button>
-          <button class="btn btn-skip" onclick="openSkipModal('${dateStr}','${scheduled}')">スキップ</button>`;
-      } else {
-        actions = badgeHTML(rec);
-      }
-    } else {
-      actions = `${badgeHTML(rec)}<button class="undo-link" onclick="undoDay('${dateStr}')">取消</button>`;
+    if (!inMonth) {
+      return `<div class="cell out"><div class="cell-date">${dayNum}</div><div class="cell-empty"></div></div>`;
     }
+    if (!a) {
+      // 開始前など担当なし
+      return `<div class="cell out"><div class="cell-date">${dayNum}</div><div class="cell-empty"></div></div>`;
+    }
+    const rec = getDayRecord(dateStr);
+    const eff = getEffective(dateStr);
+    const changed = eff !== a.name;
+    const nameHTML = changed
+      ? `<span class="strike">${a.name}</span>${eff}`
+      : `${a.name}`;
+    const icon = statusIcon(rec);
+    return `
+      <div class="cell ${a.dept} tappable${isToday ? ' today' : ''}" onclick="openDayModal('${dateStr}')">
+        <div class="cell-date">${dayNum}</div>
+        ${icon ? `<div class="cell-status">${icon}</div>` : ''}
+        <div class="cell-name">${nameHTML}</div>
+      </div>`;
+  }
+
+  function calendarHTML(today) {
+    // 表示月の週（月曜起点）を列挙
+    const firstOfMonth = `${dispYear}-${p2(dispMonth+1)}-01`;
+    const lastDate = new Date(dispYear, dispMonth+1, 0).getDate();
+    const lastOfMonth = `${dispYear}-${p2(dispMonth+1)}-${p2(lastDate)}`;
+    let monday = getMondayOf(firstOfMonth);
+    const weeks = [];
+    let cur = monday;
+    while (parse(cur) <= parse(lastOfMonth)) { weeks.push(cur); cur = addWeeks(cur, 1); }
+
+    const head = `<div class="cal-head">${WEEKDAY_HEAD.map(d => `<div>${d}</div>`).join('')}</div>`;
+    const body = weeks.map(mon => {
+      const cells = [0,1,2,3,4].map(i => cellHTML(addDays(mon, i), today)).join('');
+      return `<div class="cal-week">${cells}</div>`;
+    }).join('');
 
     return `
-      <div class="day-row${isToday ? ' today' : ''}">
-        <div class="day-label${isToday ? ' today-label' : ''}">${fmtMD(dateStr)}(${DAY_NAMES[parse(dateStr).getDay()]})</div>
-        <div class="day-main">
-          <div class="day-member">${dayMemberHTML(scheduled, effective, rec)}</div>
-          ${note ? `<div class="day-note">${note}</div>` : ''}
-          ${extraNote}
+      <div class="month-nav">
+        <button class="mn-btn" onclick="changeMonth(-1)">‹</button>
+        <div style="text-align:center;">
+          <div class="mn-title">${dispYear}年 ${dispMonth+1}月</div>
+          <button class="mn-today" onclick="goToday()">今月へ戻る</button>
         </div>
-        <div class="day-actions">${actions}</div>
+        <button class="mn-btn" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal">${head}${body}</div>`;
+  }
+
+  function todayBannerHTML(today) {
+    const a = getAssigned(today);
+    if (!a) {
+      return `<div class="today-banner">
+        <div class="tb-icon">📅</div>
+        <div><div class="tb-label">今日</div><div class="tb-name" style="font-size:14px;color:#9ca3af;">担当なし（休日・開始前）</div></div>
+      </div>`;
+    }
+    const rec = getDayRecord(today);
+    const eff = getEffective(today);
+    const deptLabel = a.dept === 'sales' ? '営業' : 'マーケ';
+    const icon = rec.status === 'completed' ? '✅' : (rec.status === 'skipped' ? '🏠' : '🎤');
+    return `
+      <div class="today-banner ${a.dept}">
+        <div class="tb-icon">${icon}</div>
+        <div>
+          <div class="tb-label">今日の当番</div>
+          <div class="tb-name">${eff}さん${eff !== a.name ? `<span style="font-size:11px;color:#9ca3af;font-weight:500;">（予定: ${a.name}さん）</span>` : ''}</div>
+        </div>
+        <span class="tb-tag tag-${a.dept}">${deptLabel}週</span>
       </div>`;
   }
 
-  function mktWeekSummary(mondayStr) {
-    const days = getWorkdays(mondayStr);
-    const names = days.map(d => getEffective(d)).filter(Boolean);
-    if (!names.length) return '';
-    const first = names[0], last = names[names.length-1];
-    return first === last ? first+'さん×5日' : `${first}〜${last}さん`;
-  }
-
-  // ── Main render ──────────────────────────────────────
-  function render() {
-    const today       = toStr(new Date());
-    const thisMonday  = getMondayOf(today);
-    const startMonday = data.startDate;
-    const beforeStart = parse(thisMonday) < parse(startMonday);
-
-    let currentHTML = '';
-
-    if (beforeStart) {
-      currentHTML = `
-        <div class="prestart-banner">
-          <div class="prestart-icon">📅</div>
-          <div class="prestart-text">ローテーション開始まで</div>
-          <div class="prestart-date">${fmtFull(startMonday)}（月）から</div>
-        </div>`;
-    } else if (!isMarketingWeek(thisMonday)) {
-      currentHTML = `
-        <div class="sales-banner">
-          <div class="sales-banner-icon">🏪</div>
-          <div class="sales-banner-text">今週は<strong>営業担当週</strong>です</div>
-          <div class="sales-banner-date">${fmtMD(thisMonday)}(月)〜${fmtMD(getFriday(thisMonday))}(金)</div>
-        </div>`;
-    } else {
-      const days = getWorkdays(thisMonday);
-      const dayRows = days.map(d => dayRowHTML(d, today, true)).join('');
-      currentHTML = `
-        <div class="week-card">
-          <div class="week-card-head">
-            <span class="week-card-label">🎯 今週 マーケ担当週</span>
-            <span class="week-card-dates">${fmtMD(thisMonday)}(月)〜${fmtMD(getFriday(thisMonday))}(金)</span>
-          </div>
-          ${dayRows}
-        </div>`;
-    }
-
-    // 次週以降（10週）
-    const upcomingItems = [];
-    for (let i = 1; i <= 10; i++) {
-      const mon = addWeeks(thisMonday, i);
-      const isMkt = isMarketingWeek(mon);
-      if (isMkt) {
-        const summary = mktWeekSummary(mon);
-        upcomingItems.push(`
-          <div class="upcoming-item">
-            <div class="upcoming-left">
-              <div class="upcoming-dates">${fmtMD(mon)}(月)〜${fmtMD(getFriday(mon))}(金)</div>
-              <div class="upcoming-info">${summary}</div>
-            </div>
-            <span class="upcoming-tag tag-mkt">マーケ</span>
-          </div>`);
-      } else {
-        upcomingItems.push(`
-          <div class="upcoming-item sales-item">
-            <div class="upcoming-left">
-              <div class="upcoming-dates">${fmtMD(mon)}(月)〜${fmtMD(getFriday(mon))}(金)</div>
-              <div class="upcoming-info sales">営業担当週</div>
-            </div>
-            <span class="upcoming-tag tag-sales">営業</span>
-          </div>`);
-      }
-    }
-    const rotationOrder = data.members.join(' → ');
-    const upcomingHTML = `
-      <div class="sec-title">次週以降</div>
-      <div class="upcoming-list">
-        ${upcomingItems.join('')}
-        <div class="rotation-hint">マーケ順：${rotationOrder} → 繰り返し（1週おき5日分）</div>
-      </div>`;
-
-    // 過去
-    const pastMondays = [];
-    let pw = addWeeks(thisMonday, -1);
-    for (let i = 0; i < 16; i++) {
-      if (parse(pw) < parse(startMonday)) break;
-      pastMondays.push(pw);
-      pw = addWeeks(pw, -1);
-    }
-    let pastHTML = '';
-    if (pastMondays.length) {
-      let pastBody = '';
-      if (showPast) {
-        pastBody = `<div class="upcoming-list" style="margin-bottom:0;">
-          ${pastMondays.map(mon => {
-            const isMkt = isMarketingWeek(mon);
-            if (!isMkt) return `
-              <div class="upcoming-item sales-item">
-                <div class="upcoming-left">
-                  <div class="upcoming-dates">${fmtMD(mon)}(月)〜${fmtMD(getFriday(mon))}(金)</div>
-                  <div class="upcoming-info sales">営業担当週</div>
-                </div>
-                <span class="upcoming-tag tag-sales">営業</span>
-              </div>`;
-            const days = getWorkdays(mon);
-            const dayRows = days.map(d => dayRowHTML(d, today, true)).join('');
-            return `
-              <div style="border-bottom:1px solid var(--gray-100);">
-                <div style="padding:8px 14px;background:var(--blue-bg);font-size:11px;font-weight:700;color:var(--blue);">
-                  ${fmtMD(mon)}(月)〜${fmtMD(getFriday(mon))}(金) マーケ
-                </div>
-                ${dayRows}
-              </div>`;
-          }).join('')}
-        </div>`;
-      }
-      pastHTML = `
-        <button class="sec-toggle" onclick="togglePast()">
-          <span>${showPast ? '▼' : '▶'}</span> 過去の記録（${pastMondays.length}週）
-        </button>
-        ${pastBody}`;
-    }
-
-    // メンバー管理
-    const chips = data.members.map((m, i) => `
-      <div class="chip" draggable="true" data-index="${i}"
-           ondragstart="ds(event,${i})" ondragover="dov(event,${i})"
-           ondrop="dp(event,${i})" ondragend="de(event)">
-        <span>${m}</span>
-        <button class="chip-x" onclick="removeMember(${i})">×</button>
+  // ── メンバー管理 ─────────────────────────────────────
+  function membersBoxHTML(dept) {
+    const list = deptMembers(dept);
+    const isSales = dept === 'sales';
+    const tagClass = isSales ? 'tag-sales' : 'tag-mkt';
+    const label = isSales ? '営業週' : 'マーケ週';
+    const chips = list.map((m, i) => `
+      <div class="chip" draggable="true" data-dept="${dept}" data-index="${i}"
+           ondragstart="ds(event,'${dept}',${i})" ondragover="dov(event,${i})"
+           ondrop="dp(event,'${dept}',${i})" ondragend="de(event)">
+        <span class="num">${i+1}</span><span>${m}</span>
+        <button class="chip-x" onclick="removeMember('${dept}',${i})">×</button>
       </div>`).join('');
-
-    const membersHTML = `
+    return `
       <div class="members-box">
-        <h3>👥 メンバー管理</h3>
+        <h3><span class="mtag ${tagClass}">${label}</span> メンバー（${list.length}名）</h3>
         <div class="chips">${chips}</div>
         <div class="add-row">
-          <input class="add-input" type="text" id="newName" placeholder="名前を入力..." maxlength="10"
-            onkeypress="if(event.key==='Enter')addMember()">
-          <button class="add-btn" onclick="addMember()">+ 追加</button>
+          <input class="add-input" type="text" id="newName_${dept}" placeholder="名前を入力..." maxlength="12"
+            onkeypress="if(event.key==='Enter')addMember('${dept}')">
+          <button class="add-btn ${dept}" onclick="addMember('${dept}')">+ 追加</button>
         </div>
-        <p class="members-note">※ ドラッグで順番変更。削除すると今後のローテーションに反映されます。</p>
+        <p class="members-note">※ ドラッグで順番変更。番号順に日替わりで担当します。</p>
+      </div>`;
+  }
+
+  // ── メイン描画 ───────────────────────────────────────
+  function render() {
+    const today = toStr(new Date());
+
+    const legend = `
+      <div class="legend">
+        <span><span class="dot dot-mkt"></span>マーケ週</span>
+        <span><span class="dot dot-sales"></span>営業週</span>
+        <span>📱 日付をタップで記録・交代</span>
       </div>`;
 
+    const mgmt = `
+      <button class="mgmt-toggle" onclick="toggleMgmt()">
+        <span>${showMgmt ? '▼' : '▶'}</span> 👥 メンバー管理（マーケ・営業）
+      </button>
+      ${showMgmt ? membersBoxHTML('mkt') + membersBoxHTML('sales') : ''}`;
+
     document.getElementById('app').innerHTML =
-      currentHTML + upcomingHTML + pastHTML + membersHTML + '<div style="height:40px;"></div>';
+      todayBannerHTML(today) + legend + calendarHTML(today) + mgmt + '<div style="height:40px;"></div>';
   }
 
-  function togglePast() { showPast = !showPast; render(); }
+  function changeMonth(delta) {
+    dispMonth += delta;
+    if (dispMonth < 0)  { dispMonth = 11; dispYear--; }
+    if (dispMonth > 11) { dispMonth = 0;  dispYear++; }
+    render();
+  }
+  function goToday() { const n = new Date(); dispYear = n.getFullYear(); dispMonth = n.getMonth(); render(); }
+  function toggleMgmt() { showMgmt = !showMgmt; render(); }
 
-  async function removeMember(i) {
-    if (data.members.length <= 1) { toast('最低1人は必要です'); return; }
-    if (!confirm(`${data.members[i]}さんを削除しますか？`)) return;
-    const name = data.members[i];
-    await apiMembers(data.members.filter((_,j) => j!==i));
+  // ── メンバー追加・削除・並べ替え ─────────────────────
+  async function removeMember(dept, i) {
+    const list = deptMembers(dept);
+    if (list.length <= 1) { toast('最低1人は必要です'); return; }
+    if (!confirm(`${list[i]}さんを削除しますか？`)) return;
+    const name = list[i];
+    await apiMembers(list.filter((_, j) => j !== i), dept);
     toast(`${name}さんを削除しました`);
   }
-  async function addMember() {
-    const inp  = document.getElementById('newName');
+  async function addMember(dept) {
+    const inp = document.getElementById('newName_' + dept);
     const name = inp.value.trim();
     if (!name) { toast('名前を入力してください'); return; }
-    if (data.members.includes(name)) { toast(`${name}さんは既に登録済みです`); return; }
-    await apiMembers([...data.members, name]);
+    const list = deptMembers(dept);
+    if (list.includes(name)) { toast(`${name}さんは既に登録済みです`); return; }
+    await apiMembers([...list, name], dept);
     inp.value = '';
     toast(`${name}さんを追加しました`);
   }
 
-  function ds(e,i) { dragIdx=i; e.currentTarget.classList.add('dragging'); }
-  function dov(e,i) {
+  function ds(e, dept, i) { dragDept = dept; dragIdx = i; e.currentTarget.classList.add('dragging'); }
+  function dov(e, i) {
     e.preventDefault();
-    document.querySelectorAll('.chip').forEach(el=>el.classList.remove('drag-over'));
-    if (i!==dragIdx) e.currentTarget.classList.add('drag-over');
+    document.querySelectorAll('.chip').forEach(el => el.classList.remove('drag-over'));
+    if (i !== dragIdx) e.currentTarget.classList.add('drag-over');
   }
-  async function dp(e,i) {
+  async function dp(e, dept, i) {
     e.preventDefault();
-    if (dragIdx===null||dragIdx===i) return;
-    const arr=[...data.members];
-    const [m]=arr.splice(dragIdx,1);
-    arr.splice(i,0,m);
-    await apiMembers(arr);
+    if (dragDept !== dept || dragIdx === null || dragIdx === i) { de(e); return; }
+    const arr = [...deptMembers(dept)];
+    const [m] = arr.splice(dragIdx, 1);
+    arr.splice(i, 0, m);
+    dragIdx = null; dragDept = null;
+    await apiMembers(arr, dept);
     toast('順番を変更しました');
-    dragIdx=null;
   }
   function de(e) {
-    dragIdx=null;
-    document.querySelectorAll('.chip').forEach(el=>el.classList.remove('dragging','drag-over'));
+    dragIdx = null; dragDept = null;
+    document.querySelectorAll('.chip').forEach(el => el.classList.remove('dragging','drag-over'));
   }
 
+  // ── 起動 ─────────────────────────────────────────────
+  const _now = new Date();
+  dispYear = _now.getFullYear();
+  dispMonth = _now.getMonth();
   fetchData();
   setInterval(fetchData, 30000);
 </script>
